@@ -1,7 +1,6 @@
 extends RigidBody3D
 
 var timer: float = 0.0;
-
 ## Newtons of thrust applied to the ship
 @export_range(500, 2500)
 var thrust: float = 1000;
@@ -24,7 +23,6 @@ func complete_level(next_level: String) -> void:
 	level_end()
 	wait_for(1.0, get_tree().change_scene_to_file.bind(next_level))
 	
-
 func game_over() -> void:
 	level_end()
 	wait_for(1.0, get_tree().reload_current_scene)

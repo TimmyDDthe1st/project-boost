@@ -1,6 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://npq11joo7jkk"]
+[gd_scene load_steps=10 format=3 uid="uid://cipav3lhttiwy"]
 
-[ext_resource type="PackedScene" uid="uid://dw8l67dkvd7u0" path="res://scenes/player.tscn" id="2_055wx"]
+[ext_resource type="PackedScene" uid="uid://dw8l67dkvd7u0" path="res://scenes/player.tscn" id="1_8ekgg"]
+[ext_resource type="Script" path="res://landing_pad.gd" id="1_htjds"]
+[ext_resource type="PackedScene" uid="uid://w6xu72qc855k" path="res://scenes/moving_obstacle.tscn" id="2_1fhta"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bav47"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,20 +18,13 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3lu4a"]
-albedo_color = Color(0.945172, 0.447484, 0.280537, 1)
+albedo_color = Color(0.865533, 0.514573, 0.290456, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jam6n"]
 albedo_color = Color(0.131741, 0.352339, 0.580123, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rtpak"]
 albedo_color = Color(0.168627, 0.831373, 0.243137, 1)
-
-[sub_resource type="GDScript" id="GDScript_omrd1"]
-script/source = "extends CSGBox3D
-
-
-@export_file(\"*.tscn\") var file_path
-"
 
 [node name="Level" type="Node3D"]
 
@@ -57,11 +52,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0.2, 0)
 use_collision = true
 size = Vector3(2, 0.4, 2)
 material = SubResource("StandardMaterial3D_rtpak")
-script = SubResource("GDScript_omrd1")
-file_path = "res://scenes/levels/Level2.tscn"
+script = ExtResource("1_htjds")
+file_path = "res://scenes/levels/Level1.tscn"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.996637, 0.0819385, 0, -0.0819385, 0.996637, 0, 5, 11.5)
 
-[node name="Player" parent="." instance=ExtResource("2_055wx")]
+[node name="Player" parent="." instance=ExtResource("1_8ekgg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.4, 0)
+
+[node name="MovingObstacle" parent="." groups=["Hazard"] instance=ExtResource("2_1fhta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28242, 0)
+destination = Vector3(4, 4, 0)
+duration = 2.0

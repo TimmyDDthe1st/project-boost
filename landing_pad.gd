@@ -1,4 +1,3 @@
-extends CSGBox3D
-
+extends Node
 
 @export_file("*.tscn") var file_path
