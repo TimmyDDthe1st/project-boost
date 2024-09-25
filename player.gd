@@ -17,6 +17,7 @@ func wait_for(wait_time: float, callback: Callable) -> void:
 	tween.tween_callback(callback)
 
 func level_end() -> void:
+	thrust_audio.stop()
 	is_transitioning = true
 	set_process(false)
 	
