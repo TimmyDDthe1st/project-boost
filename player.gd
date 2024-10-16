@@ -10,7 +10,11 @@ var is_transitioning: bool = false;
 @onready var explosion_audio: AudioStreamPlayer = $ExplosionAudio
 @onready var success_audio: AudioStreamPlayer = $SuccessAudio
 @onready var thrust_audio: AudioStreamPlayer3D = $ThrustAudio
+@onready var booster_particles: GPUParticles3D = $BoosterParticles
+@onready var explosion_particles: GPUParticles3D = $ExplosionParticles
+@onready var success_particles: GPUParticles3D = $SuccessParticles
 var pitch: float = 1.0
+
 func wait_for(wait_time: float, callback: Callable) -> void:
 	var tween = create_tween()
 	tween.tween_interval(wait_time)
@@ -23,11 +27,13 @@ func level_end() -> void:
 	
 func complete_level(next_level: String) -> void:
 	success_audio.play()
+	success_particles.emitting = true
 	level_end()
 	wait_for(3.0, get_tree().change_scene_to_file.bind(next_level))
 	
 func game_over() -> void:
 	explosion_audio.play()
+	explosion_particles.emitting = true
 	level_end()
 	wait_for(3.0, get_tree().reload_current_scene)
 
@@ -38,8 +44,10 @@ func movement(delta) -> void:
 			pitch += 0.01
 		if(!thrust_audio.playing):
 			thrust_audio.play()
+			booster_particles.emitting = true
 		apply_central_force(basis.y * delta * thrust)
 	else:
+		booster_particles.emitting = false
 		if pitch > 1.0:
 			pitch -= 0.05
 		else:
